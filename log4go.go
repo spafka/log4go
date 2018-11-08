@@ -262,10 +262,11 @@ func (log Logger) intLogc(lvl Level, closure func() string) {
 
 	// Make the log record
 	rec := &LogRecord{
-		Level:   lvl,
-		Created: time.Now(),
-		Source:  src,
-		Message: closure(),
+		Level:    lvl,
+		Created:  time.Now(),
+		Source:   src,
+		Message:  closure(),
+		Category: "DEFAULT",
 	}
 
 	// Dispatch the logs
