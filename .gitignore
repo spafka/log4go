@@ -1,0 +1,12 @@
+#忽略根目录全部内容,但不包括 /src和.gitignore
+/.settings
+bin
+/pkg/
+/bin/*.log
+src/entity/can_filter.go.bak
+.idea
+.classpath
+*.iml
+*.log
+*.exe
+

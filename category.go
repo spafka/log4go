@@ -53,13 +53,13 @@ func (f *Filter) intLogf(lvl Level, format string, args ...interface{}) {
 	}
 
 	// Dispatch the logs
-	/*for _, filt := range log {
-		if lvl < filt.Level {
-			continue
-		}
-		filt.LogWrite(rec)
-	}
-	*/
+	//for _, filt := range log {
+	//	if lvl < filt.Level {
+	//		continue
+	//	}
+	//	filt.LogWrite(rec)
+	//}
+
 	default_filter := Global["stdout"]
 
 	if lvl > default_filter.Level {

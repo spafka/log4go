@@ -218,15 +218,20 @@ func (log Logger) intLogf(lvl Level, format string, args ...interface{}) {
 
 	// Make the log record
 	rec := &LogRecord{
-		Level:   lvl,
-		Created: time.Now(),
-		Source:  src,
-		Message: msg,
+		Level:    lvl,
+		Created:  time.Now(),
+		Source:   src,
+		Message:  msg,
+		Category: "DEFAULT",
 	}
 
 	// Dispatch the logs
 	for _, filt := range log {
 		if lvl < filt.Level {
+			continue
+		}
+
+		if rec.Category != filt.Category {
 			continue
 		}
 		filt.LogWrite(rec)
