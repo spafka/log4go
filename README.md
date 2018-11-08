@@ -2,73 +2,56 @@
 
 ## Description
 
-This repository is reconstructed from alecthomas's log4go, which is a logging package similar to log4j for the Go programming language.
-
-Two new features are supported: one is Json config style, and the other is different output according to category.
+This repository is reconstructed from  jeanphorn/log4go, which is a logging package similar to log4j for the Go programming language.
 
 ## Features
-
--   **Log to console**
--   **Log to file, support rotate by size or time**
--   **log to network, support tcp and udp**
--   **support xml config**
-
----------------------------
-
--   **Support Json style configuration**
--   **Add Category for log**
-    * Classify your logs for different output and different usage.
--   **Compatible with the old**
--   **Support json style config content beside filename**
-
 ## Usage
 
 First, get the code from this repo. 
 
-```go get github.com/jeanphorn/log4go```
+```go get github.com/spafka/log4go```
 
 Then import it to your project.
 
-```import log "github.com/jeanphorn/log4go"```
+```import log "github.com/spafka/log4go"```
 
 
 ## Examples
 
-The config file is optional, if you don't set the config file, it would use the default console config.
+The config file is optional, if you don't set the config file, it would use the default console config. && console must be true
 
 Here is a Json config example:
-
-```
+```json
 {
-    "console": {
-        "enable": true,		// wether output the log
-        "level": "FINE"		// log level: FINE, DEBUG, TRACE, INFO, WARNING,ERROR, CRITICAL
-    },  
-    "files": [{
-        "enable": true,
-        "level": "DEBUG",
-        "filename":"./test.log",
-        "category": "Test",			// different category log to different files
-        "pattern": "[%D %T] [%C] [%L] (%S) %M"	// log output formmat
-    },{ 
-        "enable": false,
-        "level": "DEBUG",
-        "filename":"rotate_test.log",
-        "category": "TestRotate",
-        "pattern": "[%D %T] [%C] [%L] (%S) %M",
-        "rotate": true,				// whether rotate the log
-        "maxsize": "500M",
-        "maxlines": "10K",
-        "daily": true
-    }], 
-    "sockets": [{
-        "enable": false,
-        "level": "DEBUG",
-        "category": "TestSocket",
-        "pattern": "[%D %T] [%C] [%L] (%S) %M",
-        "addr": "127.0.0.1:12124",
-        "protocol":"udp"
-    }]  
+  "console": {
+    "enable": true,
+    "level": "DEBUG",
+    "pattern": "[%D %T]  %M"
+  },
+  "files": [
+    {
+      "enable": true,
+      "level": "DEBUG",
+      "filename": "console.log",
+      "pattern": "[%D %T]  %M",
+      "category": "DEFAULT",
+      "rotate": true,
+      "maxsize": "1024M",
+      "maxlines": "10K",
+      "daily": true
+    },
+    {
+      "enable": true,
+      "level": "DEBUG",
+      "filename": "RemoteControl.log",
+      "pattern": "[%D %T]  %M",
+      "category": "RemoteControl",
+      "rotate": true,
+      "maxsize": "1024M",
+      "maxlines": "10K",
+      "daily": true
+    }
+  ]
 }
 ```
 
@@ -78,7 +61,7 @@ Code example:
 package main
 
 import (
-	log "github.com/jeanphorn/log4go"
+	log "github.com/spafka/log4go"
 )
 
 func main() {
@@ -108,13 +91,12 @@ func main() {
 
 The output like:
 
-> [2017/11/15 14:35:11 CST] [Test] [INFO] (main.main:15) category Test info test ...     
-> [2017/11/15 14:35:11 CST] [Test] [INFO] (main.main:16) category Test info test message: new test msg     
-> [2017/11/15 14:35:11 CST] [Test] [DEBG] (main.main:17) category Test debug test ...     
-> [2017/11/15 14:35:11 CST] [DEFAULT] [INFO] (main.main:26) normal info test ...     
-> [2017/11/15 14:35:11 CST] [DEFAULT] [DEBG] (main.main:27) normal debug test ...    
-
-
 ## Thanks
 
 Thanks alecthomas for providing the [original resource](https://github.com/alecthomas/log4go).
+
+In old
+   log.Info which default category is nil, && i make it to "DEFAULT",so U can Define "DEFAULt" FILEAppler which can log this in a file && use daily log funcntion rather than
+   echo it to  >> nohup.out or so
+
+todo add additivity which definded in Log4j2
