@@ -5,6 +5,7 @@ package log4go
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -153,7 +154,11 @@ func (w *FileLogWriter) intRotate() error {
 				// if err == nil {
 				// 	return fmt.Errorf("Rotate: Cannot find free log number to rename %s\n", w.filename)
 				// }
-				fname = w.filename + fmt.Sprintf(".%s", modifieddate)
+
+				filename := w.filename
+				split := strings.Split(filename, ".")
+
+				fname = split[0] + fmt.Sprintf(".%s.%s", modifieddate, split[1])
 				w.file.Close()
 				// Rename the file to its newfound home
 				err = os.Rename(w.filename, fname)
@@ -163,8 +168,12 @@ func (w *FileLogWriter) intRotate() error {
 			} else if !w.daily {
 				num = w.maxbackup - 1
 				for ; num >= 1; num-- {
-					fname = w.filename + fmt.Sprintf(".%d", num)
-					nfname := w.filename + fmt.Sprintf(".%d", num+1)
+
+					filename := w.filename
+					split := strings.Split(filename, ".")
+					fname = split[0] + fmt.Sprintf(".%d%s", num, split[1])
+					nfname := split[0] + fmt.Sprintf(".%d%s", num+1, split[1])
+
 					_, err = os.Lstat(fname)
 					if err == nil {
 						os.Rename(fname, nfname)
