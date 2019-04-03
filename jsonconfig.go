@@ -169,7 +169,7 @@ func jsonToFileLogWriter(filename string, ff *FileConfig) (*FileLogWriter, bool)
 	maxsize := 0
 	daily := false
 	rotate := false
-	maxDate := 30
+	maxDate := 90
 
 	if len(ff.Filename) > 0 {
 		file = ff.Filename
