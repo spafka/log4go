@@ -39,6 +39,9 @@ type FileLogWriter struct {
 	// Keep old logfiles (.001, .002, etc)
 	rotate    bool
 	maxbackup int
+
+	// clean to old file
+	maxdate2save int
 }
 
 // This is the FileLogWriter's output method
@@ -169,7 +172,7 @@ func (w *FileLogWriter) intRotate() error {
 
 				fname = split[0] + fmt.Sprintf(".%s.%s", modifieddate, split[1])
 
-				date2 := time.Now().AddDate(0, -1, 0)
+				date2 := time.Now().AddDate(0, 0, w.maxdate2save)
 				date2delete := date2.Format("2006-01-02")
 				date2deletename := split[0] + fmt.Sprintf(".%s.%s", date2delete, split[1])
 
@@ -260,6 +263,12 @@ func (w *FileLogWriter) SetRotateLines(maxlines int) *FileLogWriter {
 func (w *FileLogWriter) SetRotateSize(maxsize int) *FileLogWriter {
 	//fmt.Fprintf(os.Stderr, "FileLogWriter.SetRotateSize: %v\n", maxsize)
 	w.maxsize = maxsize
+	return w
+}
+
+func (w *FileLogWriter) SetMaxDate2Save(maxdate2save int) *FileLogWriter {
+	//fmt.Fprintf(os.Stderr, "FileLogWriter.SetRotateSize: %v\n", maxsize)
+	w.maxdate2save = maxdate2save
 	return w
 }
 
