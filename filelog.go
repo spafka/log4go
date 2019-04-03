@@ -127,6 +127,15 @@ func (w *FileLogWriter) Rotate() {
 	w.rot <- true
 }
 
+func exists(name string) bool {
+	if _, err := os.Stat(name); err != nil {
+		if os.IsNotExist(err) {
+			return false
+		}
+	}
+	return true
+}
+
 // If this is called in a threaded context, it MUST be synchronized
 func (w *FileLogWriter) intRotate() error {
 	// Close any log file that may be open
@@ -159,6 +168,14 @@ func (w *FileLogWriter) intRotate() error {
 				split := strings.Split(filename, ".")
 
 				fname = split[0] + fmt.Sprintf(".%s.%s", modifieddate, split[1])
+
+				date2 := time.Now().AddDate(0, -1, 0)
+				date2delete := date2.Format("2006-01-02")
+				date2deletename := split[0] + fmt.Sprintf(".%s.%s", date2delete, split[1])
+
+				if exists(date2deletename) {
+					os.Remove(date2deletename)
+				}
 				w.file.Close()
 				// Rename the file to its newfound home
 				err = os.Rename(w.filename, fname)
@@ -178,6 +195,7 @@ func (w *FileLogWriter) intRotate() error {
 					if err == nil {
 						os.Rename(fname, nfname)
 					}
+
 				}
 				w.file.Close()
 				// Rename the file to its newfound home
