@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const DefalutLogConfig = "{\"console\":{\"enable\":true,\"level\":\"DEBUG\",\"pattern\":\"[%D%T]%M\"},\"files\":[{\"enable\":true,\"level\":\"DEBUG\",\"filename\":\"console.log\",\"pattern\":\"[%D%T]%M\",\"category\":\"DEFAULT\",\"rotate\":true,\"maxsize\":\"10G\",\"maxlines\":\"10G\",\"daily\":true,\"maxdate\":\"90\"}]}"
+
 // This log writer sends output to a file
 type FileLogWriter struct {
 	rec chan *LogRecord

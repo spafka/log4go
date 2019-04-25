@@ -10,6 +10,8 @@ import (
 
 func init() {
 
+	jsonconfig := "{\"console\":{\"enable\":true,\"level\":\"DEBUG\",\"pattern\":\"[%D%T]%M\"},\"files\":[{\"enable\":true,\"level\":\"DEBUG\",\"filename\":\"console.log\",\"pattern\":\"[%D%T]%M\",\"category\":\"DEFAULT\",\"rotate\":true,\"maxsize\":\"10G\",\"maxlines\":\"10G\",\"daily\":true,\"maxdate\":\"90\"}]}"
+	log.LoadConfigurationFromJson(jsonconfig)
 }
 
 func main() {
@@ -20,8 +22,14 @@ func main() {
 		if file.IsDir() {
 			continue
 		} else {
-			log.Info("")
+
 		}
+	}
+
+	for {
+
+		log.Info("sssssssssss")
+		time.Sleep(1 * time.Second)
 	}
 
 	t1 := time.Now()
