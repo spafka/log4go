@@ -59,6 +59,31 @@ type LogConfig struct {
 	Sockets []*SocketConfig `json:"sockets"`
 }
 
+func (log Logger) LoadJsonConfigurationV2(contents string) {
+	log.Close()
+	var (
+		lc      LogConfig
+		content string
+	)
+
+	content = contents
+
+	json.Unmarshal([]byte(content), &lc)
+
+	if lc.Console.Enable {
+		filt, _ := jsonToConsoleLogWriter("", lc.Console)
+		log["stdout"] = &Filter{getLogLevel(lc.Console.Level), filt, "DEFAULT"}
+	}
+
+	for _, fc := range lc.Files {
+		if !fc.Enable {
+			continue
+		}
+		filt, _ := jsonToFileLogWriter("", fc)
+		log[fc.Category] = &Filter{getLogLevel(fc.Level), filt, fc.Category}
+	}
+}
+
 // LoadJsonConfiguration load log config from json file
 // see examples/example.json for ducumentation
 func (log Logger) LoadJsonConfiguration(filename string) {

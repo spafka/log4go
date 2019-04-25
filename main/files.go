@@ -2,10 +2,15 @@ package main
 
 import (
 	"fmt"
+	log "github.com/spafka/log4go"
 	"io/ioutil"
 	"os"
 	"time"
 )
+
+func init() {
+
+}
 
 func main() {
 
@@ -15,7 +20,7 @@ func main() {
 		if file.IsDir() {
 			continue
 		} else {
-
+			log.Info("")
 		}
 	}
 
