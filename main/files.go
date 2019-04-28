@@ -9,9 +9,8 @@ import (
 )
 
 func init() {
-
-	jsonconfig := "{\"console\":{\"enable\":true,\"level\":\"DEBUG\",\"pattern\":\"[%D%T]%M\"},\"files\":[{\"enable\":true,\"level\":\"DEBUG\",\"filename\":\"console.log\",\"pattern\":\"[%D%T]%M\",\"category\":\"DEFAULT\",\"rotate\":true,\"maxsize\":\"10G\",\"maxlines\":\"10G\",\"daily\":true,\"maxdate\":\"90\"}]}"
-	log.LoadConfigurationFromJson(jsonconfig)
+	var s = "{\"console\":{\"enable\":true,\"level\":\"DEBUG\",\"pattern\":\"[%D%T]%M\"},\"files\":[{\"enable\":true,\"level\":\"DEBUG\",\"filename\":\"console.log\",\"pattern\":\"[%D%T]%M\",\"category\":\"DEFAULT\",\"rotate\":true,\"maxsize\":\"10G\",\"maxlines\":\"10G\",\"daily\":true,\"maxdate\":\"2\"}]}"
+	log.LoadConfigurationFromJson(s)
 }
 
 func main() {

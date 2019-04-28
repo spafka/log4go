@@ -178,6 +178,7 @@ func (w *FileLogWriter) intRotate() error {
 				date2delete := date2.Format("2006-01-02")
 				date2deletename := split[0] + fmt.Sprintf(".%s.%s", date2delete, split[1])
 
+				fmt.Println("try 2 delete $s", date2deletename)
 				// fixme modify w.daily
 				if exists(date2deletename) {
 					fmt.Println("delete File", date2deletename)
