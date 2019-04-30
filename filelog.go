@@ -174,7 +174,7 @@ func (w *FileLogWriter) intRotate() error {
 
 				fname = split[0] + fmt.Sprintf(".%s.%s", modifieddate, split[1])
 
-				date2 := time.Now().AddDate(0, 0, w.maxdate2save)
+				date2 := time.Now().AddDate(0, 0, -w.maxdate2save)
 				date2delete := date2.Format("2006-01-02")
 				date2deletename := split[0] + fmt.Sprintf(".%s.%s", date2delete, split[1])
 
